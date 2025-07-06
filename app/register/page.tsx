@@ -121,7 +121,7 @@ export default function RegisterPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="seu@email.com"
+                  placeholder="melanie@email.com"
                   className={`pl-10 py-3 rounded-xl text-sm ${errors.email ? "border-red-500" : ""}`}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -170,12 +170,7 @@ export default function RegisterPage() {
 
             {/* Termos */}
             <div className="flex items-start space-x-2">
-              <Checkbox
-                id="acceptTerms"
-                checked={formData.acceptTerms}
-                onCheckedChange={(checked) => setFormData({ ...formData, acceptTerms: checked as boolean })}
-                className={errors.acceptTerms ? "border-red-500" : ""}
-              />
+              
               <Label htmlFor="acceptTerms" className="text-sm text-gray-600">
                 Aceito os <Link href="/terms" className="text-purple-600 hover:underline">Termos</Link> e a <Link href="/privacy" className="text-purple-600 hover:underline">Privacidade</Link>
               </Label>

@@ -109,7 +109,7 @@ export default function EstimatePage() {
         </Card>
 
         <div className="space-y-4">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className=" md:grid-cols-3 gap-3">
             <div>
               <Label>Qtd de quartos</Label>
               <Select

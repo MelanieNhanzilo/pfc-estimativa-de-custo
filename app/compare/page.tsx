@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -8,7 +8,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select"
 import { ArrowLeft, Download, Share } from "lucide-react"
 import Link from "next/link"
@@ -26,8 +26,9 @@ const baseData = {
 }
 
 export default function CompareCoberturaPage() {
-  const [cobertura1, setCobertura1] = useState("chapa")
-  const [cobertura2, setCobertura2] = useState("telha")
+  const [cobertura1, setCobertura1] = useState("")
+  const [cobertura2, setCobertura2] = useState("")
+  const [tipoCasa, setTipoCasa] = useState("")
   const [results, setResults] = useState<{ [key: string]: number }>({})
   const [loading, setLoading] = useState(false)
 
@@ -45,7 +46,7 @@ export default function CompareCoberturaPage() {
         baseData.fundacao === "simples" ? 0 : 1,
         parseInt(baseData.duracao),
         baseData.paredes === "bloco" ? 0 : 1,
-        parseInt(baseData.tipoCasa),
+        parseInt(tipoCasa),
         baseData.padraoCasa === "baixo" ? 3 : baseData.padraoCasa === "medio" ? 7 : 9,
       ])
 
@@ -81,15 +82,7 @@ export default function CompareCoberturaPage() {
     const dif = results[cobertura2] - results[cobertura1]
     const percent = ((dif / results[cobertura1]) * 100).toFixed(1)
 
-    const texto = `🏠 COMPARAÇÃO DE COBERTURAS
-
-📌 Base: T2 | 40m² | 1 Piso | Padrão Médio
-🔩 ${cobertura1.toUpperCase()}: ${results[cobertura1]?.toLocaleString()} MZN
-🔩 ${cobertura2.toUpperCase()}: ${results[cobertura2]?.toLocaleString()} MZN
-
-💸 Diferença: ${dif.toLocaleString()} MZN (${percent}%)
-
-Gerado por Sistema de Estimativa v1.0`
+    const texto = `🏠 COMPARAÇÃO DE COBERTURAS\n\n📌 Base: T2 | 40m² | 1 Piso | Padrão Médio\n🔩 ${cobertura1.toUpperCase()}: ${results[cobertura1]?.toLocaleString()} MZN\n🔩 ${cobertura2.toUpperCase()}: ${results[cobertura2]?.toLocaleString()} MZN\n\n💸 Diferença: ${dif.toLocaleString()} MZN (${percent}%)\n\nGerado por Sistema de Estimativa v1.0`
 
     if (navigator.share) {
       await navigator.share({ title: "Comparação de Cobertura", text: texto })
@@ -100,58 +93,57 @@ Gerado por Sistema de Estimativa v1.0`
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="flex items-center p-4">
+    <div className="min-h-screen bg-white px-4 py-6">
+      <div className="flex items-center mb-6">
         <Link href="/">
-          <ArrowLeft className="w-6 h-6 text-gray-600" />
+          <ArrowLeft className="w-5 h-5 text-black" />
         </Link>
-        <h1 className="ml-4 text-lg font-semibold">Comparar Coberturas</h1>
+        <h1 className="ml-4 text-base font-semibold">Comparar</h1>
       </div>
 
-      <div className="p-4 space-y-6">
-        <Card className="p-4 bg-purple-600 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="font-semibold">Comparação</h2>
-              <p className="text-sm opacity-90">Seleccione dois tipos de cobertura</p>
-            </div>
-            <Share className="w-6 h-6" />
-          </div>
-        </Card>
+      <div className="space-y-4">
+        <Select value={tipoCasa} onValueChange={setTipoCasa}>
+          <SelectTrigger>
+            <SelectValue placeholder="Tipo de casa" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="0">Tipo 1</SelectItem>
+            <SelectItem value="1">Tipo 2</SelectItem>
+            <SelectItem value="2">Tipo 3</SelectItem>
+          </SelectContent>
+        </Select>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <p className="text-sm font-medium mb-1">Cobertura 1</p>
-            <Select value={cobertura1} onValueChange={setCobertura1}>
-              <SelectTrigger>
-                <SelectValue placeholder="Cobertura 1" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="chapa">Chapa</SelectItem>
-                <SelectItem value="telha">Telha</SelectItem>
-                <SelectItem value="laje">Laje</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        <Select value={cobertura1} onValueChange={setCobertura1}>
+          <SelectTrigger>
+            <SelectValue placeholder="Tipo de cobertura" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="chapa">Chapa</SelectItem>
+            <SelectItem value="telha">Telha</SelectItem>
+            <SelectItem value="laje">Laje</SelectItem>
+          </SelectContent>
+        </Select>
 
-          <div>
-            <p className="text-sm font-medium mb-1">Cobertura 2</p>
-            <Select value={cobertura2} onValueChange={setCobertura2}>
-              <SelectTrigger>
-                <SelectValue placeholder="Cobertura 2" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="chapa">Chapa</SelectItem>
-                <SelectItem value="telha">Telha</SelectItem>
-                <SelectItem value="laje">Laje</SelectItem>
-              </SelectContent>
-            </Select>
+        <div className="flex justify-center items-center py-2">
+          <div className="w-10 h-10 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center">
+            <span className="text-sm font-bold">VS</span>
           </div>
         </div>
 
+        <Select value={cobertura2} onValueChange={setCobertura2}>
+          <SelectTrigger>
+            <SelectValue placeholder="Tipo de cobertura" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="chapa">Chapa</SelectItem>
+            <SelectItem value="telha">Telha</SelectItem>
+            <SelectItem value="laje">Laje</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Button
           onClick={handleCompare}
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-semibold"
+          className="w-full mt-4 bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-semibold"
         >
           Comparar
         </Button>
