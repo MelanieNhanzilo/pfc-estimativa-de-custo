@@ -42,7 +42,7 @@ export default function RegisterPage() {
     if (!formData.confirmPassword) newErrors.confirmPassword = "Confirme a senha"
     else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Senhas não coincidem"
 
-    if (!formData.acceptTerms) newErrors.acceptTerms = "Você deve aceitar os termos"
+    //if (!formData.acceptTerms) newErrors.acceptTerms = "Você deve aceitar os termos"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
