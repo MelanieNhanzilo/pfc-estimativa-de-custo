@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -15,13 +14,14 @@ import { useAuth } from "@/lib/auth-context"
 export default function RegisterPage() {
   const router = useRouter()
   const { login } = useAuth()
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    acceptTerms: false,
   })
+
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -42,8 +42,6 @@ export default function RegisterPage() {
     if (!formData.confirmPassword) newErrors.confirmPassword = "Confirme a senha"
     else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Senhas não coincidem"
 
-    //if (!formData.acceptTerms) newErrors.acceptTerms = "Você deve aceitar os termos"
-
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -55,7 +53,7 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
-      await new Promise((res) => setTimeout(res, 1500))
+      await new Promise((res) => setTimeout(res, 1500)) // simula chamada API
       await login({
         id: Date.now().toString(),
         name: formData.name,
@@ -72,7 +70,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white">
-      {/* Top image + title */}
+      {/* Imagem do topo + título */}
       <div className="relative w-full h-72">
         <img
           src="/assets/background.svg"
@@ -86,7 +84,7 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Formulário de Registro */}
+      {/* Formulário */}
       <div className="flex justify-center relative -mt-56 z-30 px-6">
         <Card className="w-full max-w-md p-6 bg-gray-100 shadow-2xl rounded-xl space-y-5">
           <form onSubmit={handleRegister} className="space-y-5">
@@ -167,9 +165,6 @@ export default function RegisterPage() {
               </div>
               {errors.confirmPassword && <p className="text-xs text-red-500">{errors.confirmPassword}</p>}
             </div>
-
-           
-            {errors.acceptTerms && <p className="text-xs text-red-500">{errors.acceptTerms}</p>}
 
             {/* Botão */}
             <Button
