@@ -168,13 +168,7 @@ export default function RegisterPage() {
               {errors.confirmPassword && <p className="text-xs text-red-500">{errors.confirmPassword}</p>}
             </div>
 
-            {/* Termos */}
-            <div className="flex items-start space-x-2">
-              
-              <Label htmlFor="acceptTerms" className="text-sm text-gray-600">
-                Aceito os <Link href="/terms" className="text-purple-600 hover:underline">Termos</Link> e a <Link href="/privacy" className="text-purple-600 hover:underline">Privacidade</Link>
-              </Label>
-            </div>
+           
             {errors.acceptTerms && <p className="text-xs text-red-500">{errors.acceptTerms}</p>}
 
             {/* Botão */}
