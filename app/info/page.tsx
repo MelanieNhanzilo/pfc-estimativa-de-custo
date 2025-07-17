@@ -48,7 +48,7 @@ export default function InfoPage() {
         {
       title: "padrao de casa",
       icon: "🏠",
-      color: "bg-yellow-100",
+      color: "bg-yellow-200",
       iconColor: "text-pink-600",
       description: "Refere-se a do tipo medio, baixo e Alto ",
     },
